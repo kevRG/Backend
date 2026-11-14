@@ -1,0 +1,815 @@
+{
+  "info": {
+    "name": "AguaAlerta · SpringB",
+    "description": "Endpoints del backend de AguaAlerta. Los datos viven en memoria (CustomLinkedList y Cola). /api/health/db comprueba la conexión a PostgreSQL.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Estado de la API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            },
+            "description": "Responde OK."
+          },
+          "response": []
+        },
+        {
+          "name": "Conexión a la base de datos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health/db",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health",
+                "db"
+              ]
+            },
+            "description": "Ejecuta SELECT 1 contra la base de datos."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "1"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "201 con el usuario creado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreCompleto\": \"Carla Ruiz Mora\",\n  \"nombreUsuario\": \"carla.ruiz\",\n  \"correo\": \"carla.ruiz@municipio.gob.mx\",\n  \"contrasena\": \"Tecnico#2026\",\n  \"telefono\": \"7773104611\",\n  \"rol\": \"Técnico\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "Listar roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "201 con el rol creado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreRol\": \"Supervisor de zona\",\n  \"descripcion\": \"Da seguimiento a las cuadrillas de una zona\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear duplicado (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "409 si ya existe un rol con ese nombre.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreRol\": \"Técnico\",\n  \"descripcion\": \"Rol repetido\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear sin nombre (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ]
+            },
+            "description": "400 si faltan datos obligatorios.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Falta nombreRol\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Colonias",
+      "item": [
+        {
+          "name": "Listar colonias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/colonias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colonias"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/colonias/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colonias",
+                "3"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/colonias/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colonias",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/colonias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colonias"
+              ]
+            },
+            "description": "201 con la colonia creada.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreColonia\": \"Jardines del Sol\",\n  \"municipio\": \"Cuernavaca\",\n  \"codigoPostal\": \"62070\",\n  \"descripcion\": \"Zona habitacional nueva\",\n  \"latitud\": 18.93,\n  \"longitud\": -99.24\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear con código postal inválido (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/colonias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colonias"
+              ]
+            },
+            "description": "400: el código postal debe tener 5 dígitos.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreColonia\": \"Colonia Prueba\",\n  \"municipio\": \"Cuernavaca\",\n  \"codigoPostal\": \"123\",\n  \"latitud\": 18.93,\n  \"longitud\": -99.24\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Depósitos",
+      "item": [
+        {
+          "name": "Listar depósitos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/depositos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "depositos"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/depositos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "depositos",
+                "1"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/depositos/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "depositos",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/depositos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "depositos"
+              ]
+            },
+            "description": "201 con el depósito creado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreDeposito\": \"Cisterna Centro Norte\",\n  \"capacidadLitros\": 20000,\n  \"nivelActualLitros\": 12000,\n  \"tipoDeposito\": \"Cisterna\",\n  \"ubicacion\": \"Av. Morelos 120, Col. Centro\",\n  \"fechaInstalacion\": \"2024-05-10\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Técnicos",
+      "item": [
+        {
+          "name": "Listar técnicos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "1"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            },
+            "description": "201 con el técnico creado.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Jorge\",\n  \"apellidos\": \"Ríos Herrera\",\n  \"telefono\": \"7773104604\",\n  \"correo\": \"jorge.rios@municipio.gob.mx\",\n  \"especialidad\": \"Operación de válvulas\",\n  \"fechaContratacion\": \"2025-11-01\",\n  \"disponibilidad\": \"Disponible\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "item": [
+        {
+          "name": "Listar reportes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes"
+              ]
+            },
+            "description": "200 con la lista (vacía si no hay registros)."
+          },
+          "response": []
+        },
+        {
+          "name": "Cola de reportes pendientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/pendientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes",
+                "pendientes"
+              ]
+            },
+            "description": "Reportes sin asignar en orden de llegada (Cola FIFO)."
+          },
+          "response": []
+        },
+        {
+          "name": "Atender siguiente pendiente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/pendientes/atender",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes",
+                "pendientes",
+                "atender"
+              ]
+            },
+            "description": "Saca de la cola el reporte que lleva más tiempo esperando y lo marca En proceso. 404 si la cola está vacía."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/204",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes",
+                "204"
+              ]
+            },
+            "description": "200 con el registro."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener id inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes",
+                "9999"
+              ]
+            },
+            "description": "404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes"
+              ]
+            },
+            "description": "201 con el reporte creado; entra a la cola de pendientes con estado Sin asignar.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCiudadano\": 3,\n  \"idCategoria\": 2,\n  \"idVivienda\": 3,\n  \"idTuberia\": 3,\n  \"titulo\": \"Fuga en banqueta\",\n  \"descripcion\": \"Sale agua de la banqueta desde la mañana.\",\n  \"ubicacion\": \"Priv. Norte 8\",\n  \"fotografia\": null,\n  \"nivelPrioridad\": \"Alta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear con prioridad inválida (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reportes"
+              ]
+            },
+            "description": "400: nivelPrioridad debe ser Crítica, Alta, Media o Baja.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCiudadano\": 3,\n  \"idCategoria\": 2,\n  \"titulo\": \"Fuga\",\n  \"descripcion\": \"Prueba\",\n  \"ubicacion\": \"Priv. Norte 8\",\n  \"nivelPrioridad\": \"Urgente\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
